@@ -8,7 +8,7 @@
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#073642"
     },
     "updates": {
       "fallbackToCacheTimeout": 0
@@ -23,7 +23,7 @@
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#FFFFFF"
+        "backgroundColor": "#073642"
       },
       "package": "com.parallela.covidbgcom"
     },
@@ -31,6 +31,6 @@
       "favicon": "./assets/favicon.png"
     },
     "description": "The mobile version of the website covidbulgaria.com",
-    "githubUrl": "https://github.com/parallela/CovidBulgaria.com-mobile"
+    "githubUrl": "https://github.com/parallela/CovidBulgaria-Mobile"
   }
 }

@@ -46,7 +46,7 @@ build/
 .gradle
 local.properties
 <<<<<<< HEAD
-.keystore
+
 =======
 >>>>>>> a95d56f3baab17bc357850caf9d8c45f002fbb10
 *.iml
@@ -56,7 +56,7 @@ local.properties
 node_modules/
 npm-debug.log
 yarn-error.log
-
+debug.keystore
 # BUCK
 buck-out/
 \.buckd/
