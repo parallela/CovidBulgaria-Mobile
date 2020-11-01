@@ -8,9 +8,12 @@
   },
   "dependencies": {
     "expo": "~39.0.2",
+    "expo-location": "~9.0.0",
+    "expo-permissions": "~9.3.0",
     "expo-splash-screen": "~0.6.2",
     "expo-status-bar": "~1.0.2",
     "expo-updates": "~0.3.2",
+    "prop-types": "^15.7.2",
     "react": "16.13.1",
     "react-dom": "16.13.1",
     "react-native": "~0.63.3",
@@ -19,8 +22,9 @@
     "react-native-screens": "~2.10.1",
     "react-native-unimodules": "~0.11.0",
     "react-native-web": "~0.13.12",
-    "prop-types": "^15.7.2",
-    "react-native-webview": "^10.10.0"
+    "react-redux": "^7.2.2",
+    "redux": "^4.0.5",
+    "redux-thunk": "^2.3.0"
   },
   "devDependencies": {
     "@babel/core": "~7.9.0",
