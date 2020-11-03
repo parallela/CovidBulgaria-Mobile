@@ -3,7 +3,7 @@ import {combineReducers} from "redux";
 const INITIAL_STATE = {
     error: false,
     data: {},
-    ready: false
+    ready: true
 };
 
 
