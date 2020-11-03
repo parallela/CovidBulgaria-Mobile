@@ -27,7 +27,7 @@ const GeoDisplay = props => {
         getUserLocation();
     }, []);
     return (
-        <Text>{geo[0] != null ? geo[0].city : "No Data"} {}</Text>
+        <Text>{props.data.city} {props.data.infected}</Text>
     )
 }
 
