@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { Text, View } from "react-native";
+import { Text, View, StyleSheet } from "react-native";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { getDataByLocation } from "../actions/GetDataAction";
 import * as Perm from "expo-permissions";
 import * as Location from "expo-location";
+import { MainUI } from "../styling/UI";
+import { navigationRef } from "../helpers/Navigator";
 
 
 const GeoDisplay = props => {
@@ -29,7 +31,7 @@ const GeoDisplay = props => {
     }, []);
 
     return (
-        <View>
+        <View style={MainUI.container}>
             <Text style={{ fontSize: 50, color: 'white' }}>
                 {props.data.city}
             </Text>
@@ -63,7 +65,6 @@ const GeoDisplay = props => {
         </View>
     )
 }
-
 
 
 const mapStateToProps = state => {
