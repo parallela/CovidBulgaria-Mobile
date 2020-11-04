@@ -1,4 +1,8 @@
 export const translateCity = city => {
+
+    const cyrillicPattern = /^[\u0400-\u04FF]+$/;
+
+
     const cities = {
         "Благоевград": "Blagoevgrad",
         "Варна": "Varna",
@@ -8,7 +12,7 @@ export const translateCity = city => {
         "Плевен": "Pleven",
         "София": "Sofia",
         "Смолян": "Smolyan",
-        "Велико Търново": "Veliko Turnovo",
+        "Велико Търново": "Veliko Tarnovo",
         "Бургас": "Burgas",
         "Пловдив": "Plovdiv",
         "Добрич": "Dobrich",
@@ -24,11 +28,18 @@ export const translateCity = city => {
         "Монтана": "Montana",
         "Враца": "Vratsa",
         "Видин": "Vidin",
-        "Ямбол": "Qmbol",
+        "Ямбол": "Yambol",
         "Разград": "Razgrad",
         "Търговище": "Turgovishte"
     };
     const tCity = Object.keys(cities).find(key => cities[key] === city);
+
+    /**
+     * Check if the city is already in cyrillic
+     */
+    if (cyrillicPattern.test(city)) {
+        return city;
+    }
 
     return tCity;
 }

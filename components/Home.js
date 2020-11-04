@@ -1,20 +1,22 @@
 import React, { useEffect, useState } from "react";
-import { Text, View, StyleSheet } from "react-native";
+import { Text, View } from "react-native";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { getDataByLocation } from "../actions/GetDataAction";
 import * as Perm from "expo-permissions";
 import * as Location from "expo-location";
 import { MainUI } from "../styling/UI";
-import { navigationRef } from "../helpers/Navigator";
+import { SearchBar } from "react-native-elements";
 
-
-const GeoDisplay = props => {
+const Home = props => {
     const [geo, setGeo] = useState([]);
 
     const getUserLocation = async () => {
         const { status } = await Perm.askAsync(Perm.LOCATION);
         if (!status) {
+            /**
+             * TODO: Add nice error message for that.
+             */
             console.log("Permission danied");
         }
 
@@ -28,41 +30,48 @@ const GeoDisplay = props => {
 
     useEffect(() => {
         getUserLocation();
-    }, []);
-
+    }, [props.fetched]);
+    /**
+     * Wrap everything in separated components
+     */
     return (
-        <View style={MainUI.container}>
-            <Text style={{ fontSize: 50, color: 'white' }}>
-                {props.data.city}
-            </Text>
-            <Text style={{ fontSize: 20, textAlign: 'center' }}>
-                <Text style={{ color: 'orange' }}>
-                    Заразени:
+        <>
+            <View>
+                <SearchBar placeholder="Търси град" containerStyle={MainUI.searchContainer} />
+            </View>
+            <View style={MainUI.container}>
+                <Text style={{ fontSize: 50, color: 'white' }}>
+                    {props.data.city}
+                </Text>
+                <Text style={{ fontSize: 20, textAlign: 'center' }}>
+                    <Text style={{ color: 'orange' }}>
+                        Заразени:
                     <Text style={{ fontWeight: 'bold' }}>
-                        {` ${props.data.infected}`}
+                            {` ${props.data.infected}`}
+                        </Text>
                     </Text>
                 </Text>
-            </Text>
 
-            <Text style={{ fontSize: 20, textAlign: 'center' }}>
-                <Text style={{ color: 'green' }}>
-                    Излекувани:
+                <Text style={{ fontSize: 20, textAlign: 'center' }}>
+                    <Text style={{ color: 'green' }}>
+                        Излекувани:
                     <Text style={{ fontWeight: 'bold' }}>
-                        {` ${props.data.cured}`}
+                            {` ${props.data.cured}`}
+                        </Text>
                     </Text>
                 </Text>
-            </Text>
 
 
-            <Text style={{ fontSize: 20, textAlign: 'center' }}>
-                <Text style={{ color: 'red' }}>
-                    Починали:
+                <Text style={{ fontSize: 20, textAlign: 'center' }}>
+                    <Text style={{ color: 'red' }}>
+                        Починали:
                     <Text style={{ fontWeight: 'bold' }}>
-                        {` ${props.data.fatal}`}
+                            {` ${props.data.fatal}`}
+                        </Text>
                     </Text>
                 </Text>
-            </Text>
-        </View>
+            </View>
+        </>
     )
 }
 
@@ -79,4 +88,4 @@ const mapDispatchToProps = dispatch => (
     }, dispatch)
 );
 
-export default connect(mapStateToProps, mapDispatchToProps)(GeoDisplay);
+export default connect(mapStateToProps, mapDispatchToProps)(Home);
