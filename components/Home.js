@@ -7,9 +7,12 @@ import * as Perm from "expo-permissions";
 import * as Location from "expo-location";
 import { MainUI } from "../styling/UI";
 import { SearchBar } from "react-native-elements";
+import { DoubleBounce } from "react-native-loader";
+import { SafeAreaView, FlatList } from "react-native";
 
 const Home = props => {
     const [geo, setGeo] = useState([]);
+    const [search, setSearch] = useState("");
 
     const getUserLocation = async () => {
         const { status } = await Perm.askAsync(Perm.LOCATION);
@@ -37,39 +40,44 @@ const Home = props => {
     return (
         <>
             <View>
-                <SearchBar placeholder="Търси град" containerStyle={MainUI.searchContainer} />
+                <SearchBar placeholder="Търси град" value={search} onChange={(keyword) => setSearch(keyword)} containerStyle={MainUI.searchContainer} />
             </View>
             <View style={MainUI.container}>
-                <Text style={{ fontSize: 50, color: 'white' }}>
-                    {props.data.city}
-                </Text>
-                <Text style={{ fontSize: 20, textAlign: 'center' }}>
-                    <Text style={{ color: 'orange' }}>
-                        Заразени:
-                    <Text style={{ fontWeight: 'bold' }}>
-                            {` ${props.data.infected}`}
+                {!props.fetched ?
+                    <DoubleBounce size={30} color={"#fffff"} /> :
+                    <>
+                        <Text style={{ fontSize: 50, color: 'white' }}>
+                            {props.data.city}
                         </Text>
-                    </Text>
-                </Text>
-
-                <Text style={{ fontSize: 20, textAlign: 'center' }}>
-                    <Text style={{ color: 'green' }}>
-                        Излекувани:
+                        <Text style={{ fontSize: 20, textAlign: 'center' }}>
+                            <Text style={{ color: 'orange' }}>
+                                Заразени:
                     <Text style={{ fontWeight: 'bold' }}>
-                            {` ${props.data.cured}`}
+                                    {` ${props.data.infected}`}
+                                </Text>
+                            </Text>
                         </Text>
-                    </Text>
-                </Text>
 
-
-                <Text style={{ fontSize: 20, textAlign: 'center' }}>
-                    <Text style={{ color: 'red' }}>
-                        Починали:
+                        <Text style={{ fontSize: 20, textAlign: 'center' }}>
+                            <Text style={{ color: 'green' }}>
+                                Излекувани:
                     <Text style={{ fontWeight: 'bold' }}>
-                            {` ${props.data.fatal}`}
+                                    {` ${props.data.cured}`}
+                                </Text>
+                            </Text>
                         </Text>
-                    </Text>
-                </Text>
+
+                        <Text style={{ fontSize: 20, textAlign: 'center' }}>
+
+                            <Text style={{ color: 'red' }}>
+                                Починали:
+                    <Text style={{ fontWeight: 'bold' }}>
+                                    {` ${props.data.fatal}`}
+                                </Text>
+                            </Text>
+                        </Text>
+                    </>
+                }
             </View>
         </>
     )
