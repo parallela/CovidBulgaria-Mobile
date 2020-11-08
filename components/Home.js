@@ -9,10 +9,34 @@ import { MainUI } from "../styling/UI";
 import { SearchBar } from "react-native-elements";
 import { DoubleBounce } from "react-native-loader";
 import { SafeAreaView, FlatList } from "react-native";
+import SearchItems from "./SearchItems";
 
 const Home = props => {
     const [geo, setGeo] = useState([]);
+    const [searchData, setSearchData] = useState([]);
     const [search, setSearch] = useState("");
+    const [showSearchDropdown, setShowSearchDropdown] = useState(false);
+
+    const items = [
+        {
+            name: "Vratsa"
+        },
+        {
+            name: "Blagoevgrad"
+        }
+    ];
+
+    const searchItems = text => {
+        console.log(text);
+        setSearch(text);
+        const newSearchData = items.filter(item => {
+            const itemData = `${item.name.toUpperCase()}`;
+            const textData = text.toString().toUpperCase();
+            return itemData.indexOf(textData) > -1;
+        });
+
+        setSearchData(newSearchData);
+    }
 
     const getUserLocation = async () => {
         const { status } = await Perm.askAsync(Perm.LOCATION);
@@ -32,6 +56,7 @@ const Home = props => {
     }
 
     useEffect(() => {
+        setSearchData(items);
         getUserLocation();
     }, [props.fetched]);
     /**
@@ -40,7 +65,10 @@ const Home = props => {
     return (
         <>
             <View>
-                <SearchBar placeholder="Търси град" value={search} onChange={(keyword) => setSearch(keyword)} containerStyle={MainUI.searchContainer} />
+                <SearchBar placeholder="Търси град" round={true} onFocus={() => setShowSearchDropdown(true)} value={search} onChangeText={(keyword) => searchItems(keyword)} containerStyle={MainUI.searchContainer} />
+                {showSearchDropdown &&
+                    <FlatList data={searchData} renderItem={({ item }) => (<SearchItems item={item} />)} keyExtractor={item => item.name} ItemSeparatorComponent={renderSeperator} />
+                }
             </View>
             <View style={MainUI.container}>
                 {!props.fetched ?
@@ -83,6 +111,17 @@ const Home = props => {
     )
 }
 
+const renderSeperator = props => {
+    return (
+        <View
+            style={{
+                height: 1,
+                width: '100%',
+                backgroundColor: '#CED0CE',
+            }}
+        />
+    );
+}
 
 const mapStateToProps = state => {
     const { locationData } = state;

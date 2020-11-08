@@ -8,7 +8,6 @@ export const MainUI = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center'
     },
-
     searchContainer: {
         backgroundColor: '#073642',
         borderWidth: 0,
@@ -17,12 +16,14 @@ export const MainUI = StyleSheet.create({
         borderTopColor: 'transparent',
     },
     item: {
-        backgroundColor: '#f9c2ff',
-        padding: 20,
-        marginVertical: 8,
-        marginHorizontal: 16,
+        flex: 1,
+        padding: 12,
+        width: '100%',
+        alignSelf: 'center',
+        justifyContent: 'center',
+        marginLeft: 10
     },
     title: {
-        fontSize: 32,
+        fontSize: 16,
     },
 });
