@@ -16,5 +16,5 @@ const SearchItems = props => {
 export default SearchItems;
 
 SearchItems.propTypes = {
-    items: PropTypes.any.isRequired
+    item: PropTypes.object.isRequired
 }

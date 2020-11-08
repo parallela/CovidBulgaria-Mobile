@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { Text, View } from "react-native";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { getDataByLocation } from "../actions/GetDataAction";
@@ -8,11 +7,10 @@ import * as Location from "expo-location";
 import { MainUI } from "../styling/UI";
 import { SearchBar } from "react-native-elements";
 import { DoubleBounce } from "react-native-loader";
-import { SafeAreaView, FlatList } from "react-native";
+import { FlatList, Pressable, Keyboard, Text, View } from "react-native";
 import SearchItems from "./SearchItems";
 
 const Home = props => {
-    const [geo, setGeo] = useState([]);
     const [searchData, setSearchData] = useState([]);
     const [search, setSearch] = useState("");
     const [showSearchDropdown, setShowSearchDropdown] = useState(false);
@@ -27,7 +25,6 @@ const Home = props => {
     ];
 
     const searchItems = text => {
-        console.log(text);
         setSearch(text);
         const newSearchData = items.filter(item => {
             const itemData = `${item.name.toUpperCase()}`;
@@ -51,12 +48,10 @@ const Home = props => {
         const { latitude, longitude } = location.coords;
         const geocode = Location.reverseGeocodeAsync({ longitude, latitude }).then(data => {
             props.getDataByLocation(data[0]);
-            setGeo(data);
         });
     }
 
     useEffect(() => {
-        setSearchData(items);
         getUserLocation();
     }, [props.fetched]);
     /**
@@ -65,48 +60,59 @@ const Home = props => {
     return (
         <>
             <View>
-                <SearchBar placeholder="Търси град" round={true} onFocus={() => setShowSearchDropdown(true)} value={search} onChangeText={(keyword) => searchItems(keyword)} containerStyle={MainUI.searchContainer} />
+                <SearchBar
+                    placeholder="Търси град"
+                    round={true}
+                    onFocus={() => setShowSearchDropdown(true)}
+                    value={search}
+                    onChangeText={(keyword) => searchItems(keyword)}
+                    containerStyle={MainUI.searchContainer}
+                />
                 {showSearchDropdown &&
                     <FlatList data={searchData} renderItem={({ item }) => (<SearchItems item={item} />)} keyExtractor={item => item.name} ItemSeparatorComponent={renderSeperator} />
                 }
             </View>
-            <View style={MainUI.container}>
-                {!props.fetched ?
-                    <DoubleBounce size={30} color={"#fffff"} /> :
-                    <>
-                        <Text style={{ fontSize: 50, color: 'white' }}>
-                            {props.data.city}
-                        </Text>
-                        <Text style={{ fontSize: 20, textAlign: 'center' }}>
-                            <Text style={{ color: 'orange' }}>
-                                Заразени:
+            <Pressable style={MainUI.container}
+                onPress={() => { Keyboard.dismiss(); setShowSearchDropdown(false); }}
+            >
+                <View>
+                    {!props.fetched ?
+                        <DoubleBounce size={30} color={"#fffff"} /> :
+                        <>
+                            <Text style={{ fontSize: 50, color: 'white' }}>
+                                {props.data.city}
+                            </Text>
+                            <Text style={{ fontSize: 20, textAlign: 'center' }}>
+                                <Text style={{ color: 'orange' }}>
+                                    Заразени:
                     <Text style={{ fontWeight: 'bold' }}>
-                                    {` ${props.data.infected}`}
+                                        {` ${props.data.infected}`}
+                                    </Text>
                                 </Text>
                             </Text>
-                        </Text>
 
-                        <Text style={{ fontSize: 20, textAlign: 'center' }}>
-                            <Text style={{ color: 'green' }}>
-                                Излекувани:
+                            <Text style={{ fontSize: 20, textAlign: 'center' }}>
+                                <Text style={{ color: 'green' }}>
+                                    Излекувани:
                     <Text style={{ fontWeight: 'bold' }}>
-                                    {` ${props.data.cured}`}
+                                        {` ${props.data.cured}`}
+                                    </Text>
                                 </Text>
                             </Text>
-                        </Text>
 
-                        <Text style={{ fontSize: 20, textAlign: 'center' }}>
+                            <Text style={{ fontSize: 20, textAlign: 'center' }}>
 
-                            <Text style={{ color: 'red' }}>
-                                Починали:
+                                <Text style={{ color: 'red' }}>
+                                    Починали:
                     <Text style={{ fontWeight: 'bold' }}>
-                                    {` ${props.data.fatal}`}
+                                        {` ${props.data.fatal}`}
+                                    </Text>
                                 </Text>
                             </Text>
-                        </Text>
-                    </>
-                }
-            </View>
+                        </>
+                    }
+                </View>
+            </Pressable>
         </>
     )
 }
