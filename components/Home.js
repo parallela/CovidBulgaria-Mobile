@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import { getDataByLocation } from "../actions/GetDataAction";
+import { getDataByLocation, getSearchItems } from "../actions/GetDataAction";
 import * as Perm from "expo-permissions";
 import * as Location from "expo-location";
 import { MainUI } from "../styling/UI";
@@ -11,22 +11,22 @@ import { FlatList, Pressable, Keyboard, Text, View } from "react-native";
 import SearchItems from "./SearchItems";
 
 const Home = props => {
+    const [searchDataItems, setSearchDataItems] = useState([]);
     const [searchData, setSearchData] = useState([]);
     const [search, setSearch] = useState("");
     const [showSearchDropdown, setShowSearchDropdown] = useState(false);
 
-    const items = [
-        {
-            name: "Vratsa"
-        },
-        {
-            name: "Blagoevgrad"
-        }
-    ];
 
     const searchItems = text => {
         setSearch(text);
-        const newSearchData = items.filter(item => {
+        /**
+         * If the search query is less than one word, we hide the search suggestions.
+         */
+        if (text.toString().length === 0)
+            setShowSearchDropdown(false);
+        else setShowSearchDropdown(true);
+
+        const newSearchData = searchDataItems.filter(item => {
             const itemData = `${item.name.toUpperCase()}`;
             const textData = text.toString().toUpperCase();
             return itemData.indexOf(textData) > -1;
@@ -53,7 +53,10 @@ const Home = props => {
 
     useEffect(() => {
         getUserLocation();
-    }, [props.fetched]);
+        props.getSearchItems();
+
+        setSearchDataItems(props.cities.data);
+    }, [props.location.fetched, props.cities.fetched]);
     /**
      * Wrap everything in separated components
      */
@@ -64,6 +67,7 @@ const Home = props => {
                     placeholder="Търси град"
                     round={true}
                     onFocus={() => setShowSearchDropdown(true)}
+                    onCancel={() => setShowSearchDropdown(false)}
                     value={search}
                     onChangeText={(keyword) => searchItems(keyword)}
                     containerStyle={MainUI.searchContainer}
@@ -76,17 +80,17 @@ const Home = props => {
                 onPress={() => { Keyboard.dismiss(); setShowSearchDropdown(false); }}
             >
                 <View>
-                    {!props.fetched ?
+                    {(!props.location.fetched || showSearchDropdown) ?
                         <DoubleBounce size={30} color={"#fffff"} /> :
                         <>
                             <Text style={{ fontSize: 50, color: 'white' }}>
-                                {props.data.city}
+                                {props.location.data.city}
                             </Text>
                             <Text style={{ fontSize: 20, textAlign: 'center' }}>
                                 <Text style={{ color: 'orange' }}>
                                     Заразени:
-                    <Text style={{ fontWeight: 'bold' }}>
-                                        {` ${props.data.infected}`}
+                                    <Text style={{ fontWeight: 'bold' }}>
+                                        {` ${props.location.data.infected}`}
                                     </Text>
                                 </Text>
                             </Text>
@@ -94,8 +98,8 @@ const Home = props => {
                             <Text style={{ fontSize: 20, textAlign: 'center' }}>
                                 <Text style={{ color: 'green' }}>
                                     Излекувани:
-                    <Text style={{ fontWeight: 'bold' }}>
-                                        {` ${props.data.cured}`}
+                                    <Text style={{ fontWeight: 'bold' }}>
+                                        {` ${props.location.data.cured}`}
                                     </Text>
                                 </Text>
                             </Text>
@@ -104,8 +108,8 @@ const Home = props => {
 
                                 <Text style={{ color: 'red' }}>
                                     Починали:
-                    <Text style={{ fontWeight: 'bold' }}>
-                                        {` ${props.data.fatal}`}
+                                    <Text style={{ fontWeight: 'bold' }}>
+                                        {` ${props.location.data.fatal}`}
                                     </Text>
                                 </Text>
                             </Text>
@@ -130,14 +134,13 @@ const renderSeperator = props => {
 }
 
 const mapStateToProps = state => {
-    const { locationData } = state;
-
-    return locationData;
+    return state;
 }
 
 const mapDispatchToProps = dispatch => (
     bindActionCreators({
-        getDataByLocation
+        getDataByLocation,
+        getSearchItems
     }, dispatch)
 );
 

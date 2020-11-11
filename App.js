@@ -3,8 +3,8 @@ import React from 'react';
 import { createStore, applyMiddleware } from "redux";
 import thunk from "redux-thunk";
 import { Provider } from "react-redux";
-import GetInformationByLocation from "./reducers/GetInformationByLocation";
 import Wrapper from './components/Wrapper';
+import Reducers from "./reducers/Combine";
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { NavigationContainer } from '@react-navigation/native';
 import { Text } from "react-native";
@@ -15,11 +15,11 @@ import { navigationRef } from "./helpers/Navigator";
  */
 import Home from './components/Home';
 
-const store = createStore(GetInformationByLocation, applyMiddleware(thunk));
+const store = createStore(Reducers, applyMiddleware(thunk));
 /*
  * TODO:
  * [x] 1. Wrap everything with parent component
- * 2. Search bar
+ * [x] 2. Search bar
  * 3. Save searched cities.
  * [!] 4. Check if the city is undefined and suggest nearest city.
  * 5. Animated background
