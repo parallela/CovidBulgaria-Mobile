@@ -2,7 +2,7 @@ import { translateCity } from "../helpers/CityTranslator";
 
 /**
  * Get the data from the API by location
- * @param object location 
+ * @param {Object} location 
  */
 export const getDataByLocation = location => {
     return dispatch => {
@@ -14,13 +14,6 @@ export const getDataByLocation = location => {
             dispatch({ type: "GET_DATA_BY_LOCATION_SUCCESS", payload: data });
         });
     }
-}
-/**
- * 
- * @param string city_name 
- */
-export const getDataBySelectedCity = city_name => {
-    // TODO;
 }
 
 export const getSearchItems = () => {

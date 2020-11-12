@@ -8,7 +8,7 @@ const SearchItems = props => {
 
     return (
         <View style={MainUI.item}>
-            <Text style={MainUI.title}>{item.name}</Text>
+            <Text style={MainUI.title} onPress={() => { props.setLocation(item.name) }}>{item.name}</Text>
         </View>
     );
 }
@@ -16,5 +16,6 @@ const SearchItems = props => {
 export default SearchItems;
 
 SearchItems.propTypes = {
-    item: PropTypes.object.isRequired
+    item: PropTypes.object.isRequired,
+    setLocation: PropTypes.func.isRequired
 }

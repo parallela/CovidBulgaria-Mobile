@@ -25,7 +25,8 @@ const store = createStore(Reducers, applyMiddleware(thunk));
  * 5. Animated background
  * 6. Fancy and animated font
  * 7. Setup menu преди показване на приложението
- * 8. Fix Drawer under the search bar. (Check if the drawer is opened or not state) 
+ * [x]8. Fix Drawer under the search bar. (Check if the drawer is opened or not state) 
+ * 9. Add errors binding on every reducer
  */
 
 const Drawer = createDrawerNavigator();
