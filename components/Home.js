@@ -90,8 +90,17 @@ const Home = props => {
                 onPress={() => { Keyboard.dismiss(); setShowSearchDropdown(false); }}
             >
                 <View>
-                    {(!props.location.fetched || showSearchDropdown) ?
-                        <DoubleBounce size={30} color={"#fffff"} /> :
+                    {console.log(props.location.data)}
+                    {(!props.location.fetched || showSearchDropdown || ObjectEmpty(props.location.data.city)) ?
+                        <View style={MainUI.container2}>
+                            <DoubleBounce size={30} color={"#fffff"} />
+
+                            <Text style={MainUI.textMiddle}>Изпитваме затруднение с намиране на града Ви.</Text>
+                            <Text style={MainUI.textMiddle}>
+                                Предполагаме, че сте от: 
+                            </Text>
+                        </View>
+                        :
                         <>
                             <Text style={{ fontSize: 50, color: 'white' }}>
                                 {ObjectEmpty(customCity) ? props.location.data.city : customCity.city}

@@ -20,7 +20,7 @@ const store = createStore(Reducers, applyMiddleware(thunk));
  * TODO:
  * [x] 1. Wrap everything with parent component
  * [x] 2. Search bar
- * 3. Save searched cities.
+ * [v2] 3. Save searched cities.
  * [!] 4. Check if the city is undefined and suggest nearest city.
  * 5. Animated background
  * 6. Fancy and animated font

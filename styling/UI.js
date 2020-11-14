@@ -8,6 +8,15 @@ export const MainUI = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center'
     },
+    container2: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+    textMiddle: {
+        fontSize: 16,
+        color: '#ffffff'
+    },
     searchContainer: {
         backgroundColor: '#073642',
         borderWidth: 0,
