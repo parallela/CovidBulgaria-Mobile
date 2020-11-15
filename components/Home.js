@@ -10,11 +10,13 @@ import { DoubleBounce } from "react-native-loader";
 import { FlatList, Pressable, Keyboard, Text, View } from "react-native";
 import SearchItems from "./SearchItems";
 import { ObjectEmpty } from "../helpers/DataValidator";
+import findNearestCity from "find-nearest-cities";
 
 const Home = props => {
     const [searchDataItems, setSearchDataItems] = useState([]);
     const [searchData, setSearchData] = useState([]);
     const [search, setSearch] = useState("");
+    const [nearestCity, setNearestCity] = useState([]);
     const [showSearchDropdown, setShowSearchDropdown] = useState(false);
     const [customCity, setCustomCity] = useState({});
 
@@ -56,6 +58,7 @@ const Home = props => {
 
         const location = await Location.getCurrentPositionAsync({ accuracy: Location.Accuracy.Highest })
         const { latitude, longitude } = location.coords;
+        setNearestCity(findNearestCity(latitude, longitude, 20000, 1)[0]);
         const geocode = Location.reverseGeocodeAsync({ longitude, latitude }).then(data => {
             props.getDataByLocation(data[0]);
         });
@@ -90,17 +93,23 @@ const Home = props => {
                 onPress={() => { Keyboard.dismiss(); setShowSearchDropdown(false); }}
             >
                 <View>
-                    {console.log(props.location.data)}
-                    {(!props.location.fetched || showSearchDropdown || ObjectEmpty(props.location.data.city)) ?
+                    {(showSearchDropdown || ObjectEmpty(customCity) && props.location.data.city === undefined) &&
                         <View style={MainUI.container2}>
                             <DoubleBounce size={30} color={"#fffff"} />
+                            {(props.location.data.city === undefined && !showSearchDropdown) &&
+                                <>
+                                    <Text style={MainUI.textMiddle}>
+                                        Все още нямаме информация за
+                                    </Text>
+                                    <Text style={MainUI.textMiddle}>
+                                        гр. {nearestCity.name}
+                                    </Text>
 
-                            <Text style={MainUI.textMiddle}>Изпитваме затруднение с намиране на града Ви.</Text>
-                            <Text style={MainUI.textMiddle}>
-                                Предполагаме, че сте от: 
-                            </Text>
+                                </>
+                            }
                         </View>
-                        :
+                    }
+                    {!props.location.city === undefined || !ObjectEmpty(customCity) &&
                         <>
                             <Text style={{ fontSize: 50, color: 'white' }}>
                                 {ObjectEmpty(customCity) ? props.location.data.city : customCity.city}
@@ -159,7 +168,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => (
     bindActionCreators({
         getDataByLocation,
-        getSearchItems
+        getSearchItems,
     }, dispatch)
 );
 

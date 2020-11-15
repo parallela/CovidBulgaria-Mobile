@@ -16,6 +16,7 @@ export const getDataByLocation = location => {
     }
 }
 
+
 export const getSearchItems = () => {
     return dispatch => {
         dispatch({ type: 'FETCHING_CITIES' });

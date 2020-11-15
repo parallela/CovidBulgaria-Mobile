@@ -27,6 +27,7 @@ const store = createStore(Reducers, applyMiddleware(thunk));
  * 7. Setup menu преди показване на приложението
  * [x]8. Fix Drawer under the search bar. (Check if the drawer is opened or not state) 
  * 9. Add errors binding on every reducer
+ * 10. Save searched city if theres no information about the user city.
  */
 
 const Drawer = createDrawerNavigator();
