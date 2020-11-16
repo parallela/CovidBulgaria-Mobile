@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { getDataByLocation, getSearchItems } from "../actions/GetDataAction";
@@ -62,10 +62,14 @@ const Home = props => {
         const geocode = Location.reverseGeocodeAsync({ longitude, latitude }).then(data => {
             props.getDataByLocation(data[0]);
         });
+        console.log("hello");
     }
 
-    useEffect(() => {
+    const memoUserLocation = useMemo(() => {
         getUserLocation();
+    }, [props.location.fetched]);
+
+    useEffect(() => {
         props.getSearchItems();
 
         setSearchDataItems(props.cities.data);
@@ -102,47 +106,45 @@ const Home = props => {
                                         Все още нямаме информация за
                                     </Text>
                                     <Text style={MainUI.textMiddle}>
-                                        гр. {nearestCity.name}
+                                        гр. {!ObjectEmpty(nearestCity) ? nearestCity.name : "..."}
                                     </Text>
 
                                 </>
                             }
                         </View>
                     }
-                    {!props.location.city === undefined || !ObjectEmpty(customCity) &&
-                        <>
-                            <Text style={{ fontSize: 50, color: 'white' }}>
-                                {ObjectEmpty(customCity) ? props.location.data.city : customCity.city}
-                            </Text>
-                            <Text style={{ fontSize: 20, textAlign: 'center' }}>
-                                <Text style={{ color: 'orange' }}>
-                                    Заразени:
+                    <>
+                        <Text style={{ fontSize: 50, color: 'white' }}>
+                            {ObjectEmpty(customCity) ? props.location.data.city : customCity.city}
+                        </Text>
+                        <Text style={{ fontSize: 20, textAlign: 'center' }}>
+                            <Text style={{ color: 'orange' }}>
+                                Заразени:
                                     <Text style={{ fontWeight: 'bold' }}>
-                                        {` ${ObjectEmpty(customCity) ? props.location.data.infected : customCity.infected}`}
-                                    </Text>
+                                    {` ${ObjectEmpty(customCity) ? props.location.data.infected : customCity.infected}`}
                                 </Text>
                             </Text>
+                        </Text>
 
-                            <Text style={{ fontSize: 20, textAlign: 'center' }}>
-                                <Text style={{ color: 'green' }}>
-                                    Излекувани:
+                        <Text style={{ fontSize: 20, textAlign: 'center' }}>
+                            <Text style={{ color: 'green' }}>
+                                Излекувани:
                                     <Text style={{ fontWeight: 'bold' }}>
-                                        {` ${ObjectEmpty(customCity) ? props.location.data.cured : customCity.cured}`}
-                                    </Text>
+                                    {` ${ObjectEmpty(customCity) ? props.location.data.cured : customCity.cured}`}
                                 </Text>
                             </Text>
+                        </Text>
 
-                            <Text style={{ fontSize: 20, textAlign: 'center' }}>
+                        <Text style={{ fontSize: 20, textAlign: 'center' }}>
 
-                                <Text style={{ color: 'red' }}>
-                                    Починали:
+                            <Text style={{ color: 'red' }}>
+                                Починали:
                                     <Text style={{ fontWeight: 'bold' }}>
-                                        {` ${ObjectEmpty(customCity) ? props.location.data.fatal : customCity.fatal}`}
-                                    </Text>
+                                    {` ${ObjectEmpty(customCity) ? props.location.data.fatal : customCity.fatal}`}
                                 </Text>
                             </Text>
-                        </>
-                    }
+                        </Text>
+                    </>
                 </View>
             </Pressable>
         </>

@@ -14,12 +14,12 @@ const Wrapper = (props) => {
     return (
         <>
             <StatusBar backgroundColor={"#011E25"} />
-            <Header
+            {/* <Header
                 leftComponent={{ icon: 'menu', color: '#fff', onPress: () => { drawer() } }}
                 centerComponent={{ text: 'COVID Bulgaria', style: { color: '#fff' } }}
                 rightComponent={{ icon: 'home', color: '#fff', onPress: () => { Navigator.navigate('Начало') } }}
                 backgroundColor={'#011E25'}
-            />
+            /> */}
         </>
     )
 
