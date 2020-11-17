@@ -14,9 +14,9 @@ import { navigationRef } from "./helpers/Navigator";
 /**
  * Components
  */
-// import Home from './components/Home';
+import Home from './components/Home';
 
-// const store = createStore(Reducers, applyMiddleware(thunk));
+const store = createStore(Reducers, applyMiddleware(thunk));
 /*
  * TODO:
  * [x] 1. Wrap everything with parent component
@@ -31,7 +31,7 @@ import { navigationRef } from "./helpers/Navigator";
  * 10. Save searched city if theres no information about the user city.
  */
 
-// const Drawer = createDrawerNavigator();
+const Drawer = createDrawerNavigator();
 
 const App = () => {
     return (

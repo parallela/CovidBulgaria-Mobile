@@ -62,7 +62,6 @@ const Home = props => {
         const geocode = Location.reverseGeocodeAsync({ longitude, latitude }).then(data => {
             props.getDataByLocation(data[0]);
         });
-        console.log("hello");
     }
 
     const memoUserLocation = useMemo(() => {
@@ -113,38 +112,40 @@ const Home = props => {
                             }
                         </View>
                     }
-                    <>
-                        <Text style={{ fontSize: 50, color: 'white' }}>
-                            {ObjectEmpty(customCity) ? props.location.data.city : customCity.city}
-                        </Text>
-                        <Text style={{ fontSize: 20, textAlign: 'center' }}>
-                            <Text style={{ color: 'orange' }}>
-                                Заразени:
+                    {props.location.data.city !== undefined || !ObjectEmpty(customCity) &&
+                        <>
+                            <Text style={{ fontSize: 50, color: 'white' }}>
+                                {ObjectEmpty(customCity) ? props.location.data.city : customCity.city}
+                            </Text>
+                            <Text style={{ fontSize: 20, textAlign: 'center' }}>
+                                <Text style={{ color: 'orange' }}>
+                                    Заразени:
                                     <Text style={{ fontWeight: 'bold' }}>
-                                    {` ${ObjectEmpty(customCity) ? props.location.data.infected : customCity.infected}`}
+                                        {` ${ObjectEmpty(customCity) ? props.location.data.infected : customCity.infected}`}
+                                    </Text>
                                 </Text>
                             </Text>
-                        </Text>
 
-                        <Text style={{ fontSize: 20, textAlign: 'center' }}>
-                            <Text style={{ color: 'green' }}>
-                                Излекувани:
+                            <Text style={{ fontSize: 20, textAlign: 'center' }}>
+                                <Text style={{ color: 'green' }}>
+                                    Излекувани:
                                     <Text style={{ fontWeight: 'bold' }}>
-                                    {` ${ObjectEmpty(customCity) ? props.location.data.cured : customCity.cured}`}
+                                        {` ${ObjectEmpty(customCity) ? props.location.data.cured : customCity.cured}`}
+                                    </Text>
                                 </Text>
                             </Text>
-                        </Text>
 
-                        <Text style={{ fontSize: 20, textAlign: 'center' }}>
+                            <Text style={{ fontSize: 20, textAlign: 'center' }}>
 
-                            <Text style={{ color: 'red' }}>
-                                Починали:
+                                <Text style={{ color: 'red' }}>
+                                    Починали:
                                     <Text style={{ fontWeight: 'bold' }}>
-                                    {` ${ObjectEmpty(customCity) ? props.location.data.fatal : customCity.fatal}`}
+                                        {` ${ObjectEmpty(customCity) ? props.location.data.fatal : customCity.fatal}`}
+                                    </Text>
                                 </Text>
                             </Text>
-                        </Text>
-                    </>
+                        </>
+                    }
                 </View>
             </Pressable>
         </>
