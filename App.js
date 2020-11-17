@@ -1,4 +1,4 @@
-// import 'react-native-gesture-handler';
+import 'react-native-gesture-handler';
 import React from 'react';
 import { createStore, applyMiddleware } from "redux";
 import { registerRootComponent } from "expo";
@@ -14,7 +14,8 @@ import { navigationRef } from "./helpers/Navigator";
 /**
  * Components
  */
-import Home from './components/Home';
+import Home from './screens/Home';
+import CitiesData from './screens/CitiesData';
 
 const store = createStore(Reducers, applyMiddleware(thunk));
 /*
@@ -46,18 +47,13 @@ const App = () => {
                           */
                     }
                     <Drawer.Screen name="Начало" component={Home} />
-                    <Drawer.Screen name="Повече информация" component={NotificationsScreen} />
+                    <Drawer.Screen name="Повече информация" component={CitiesData} />
                 </Drawer.Navigator>
             </NavigationContainer>
         </Provider >
     );
 }
 
-const NotificationsScreen = props => {
-    return (
-        <Text>Hello</Text>
-    );
-}
 
 export default App;
 
