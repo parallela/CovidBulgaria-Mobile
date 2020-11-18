@@ -32,3 +32,14 @@ export const getSearchItems = () => {
         });
     }
 }
+
+export const getCities = () => {
+    return dispatch => {
+        dispatch({ type: 'FETCHING_CITIES' });
+        return fetch("https://raw.githubusercontent.com/COVID-19-Bulgaria/covid-database/master/Bulgaria/GeoDataset.json").then(
+            res => res.json()
+        ).then(res => {
+            dispatch({ type: "FETCHING_CITIES_SUCCESS", payload: res });
+        });
+    }
+}

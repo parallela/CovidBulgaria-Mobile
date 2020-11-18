@@ -8,6 +8,11 @@ export const MainUI = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center'
     },
+    container_full: {
+        flex: 1,
+        resizeMode: 'cover',
+        textDecorationColor: 'white' 
+    },
     container2: {
         flex: 1,
         justifyContent: 'center',

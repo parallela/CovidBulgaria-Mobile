@@ -27,7 +27,6 @@ const store = createStore(Reducers, applyMiddleware(thunk));
  * 5. Animated background
  * 6. Fancy and animated font
  * 9. Add errors binding on every reducer
- * [!]10. Save searched city if theres no information about the user city.
  */
 
 const Drawer = createDrawerNavigator();
