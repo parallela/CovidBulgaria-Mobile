@@ -13,19 +13,20 @@ import RenderSepartor from "../components/RenderSeperator";
 import CityNotFound from "../components/CityNotFound";
 import Statistics from "../components/Statistics";
 
-
 /**
  * React native elements
  */
 import { SearchBar } from "react-native-elements";
 import { DoubleBounce } from "react-native-loader";
 import { MainUI } from "../styling/UI";
+import Modal, { ModalContent } from 'react-native-modals';
+import { SlideAnimation } from "react-native-popup-dialog";
 
 /**
  * Expo libraries
  */
-import * as Perm from "expo-permissions";
 import * as Location from "expo-location"
+
 const Home = props => {
     const [searchDataItems, setSearchDataItems] = useState([]);
     const [searchData, setSearchData] = useState([]);
@@ -37,24 +38,18 @@ const Home = props => {
      * Get user location by Google Location Service.
      */
     const getUserLocation = async () => {
-        const { status } = await Perm.askAsync(Perm.LOCATION);
-        if (!status) {
-            /**
-             * TODO: Add nice error message for that.
-             */
-            console.log("Permission danied");
-        }
 
         const location = await Location.getCurrentPositionAsync({ accuracy: Location.Accuracy.Highest })
         const { latitude, longitude } = location.coords;
         const geocode = Location.reverseGeocodeAsync({ longitude, latitude }).then(data => {
             props.getDataByLocation(data[0]);
+            return true;
         });
     }
 
     /**
      * Set custom location
-     * @param {String} city 
+     * @param {String} city
      */
     const setLocation = city => {
         return fetch("https://raw.githubusercontent.com/COVID-19-Bulgaria/covid-database/master/Bulgaria/GeoDataset.json").then(
@@ -67,7 +62,7 @@ const Home = props => {
 
     /**
      * Searchbar logic
-     * @param {String} text 
+     * @param {String} text
      */
     const searchItems = text => {
         setSearch(text);
@@ -94,8 +89,8 @@ const Home = props => {
 
     useEffect(() => {
         props.getSearchItems();
-        setSearchDataItems(props.cities.data)
-    }, [props.cities.fetched])
+        setSearchDataItems(props.searchItems.data)
+    }, [props.searchItems.fetched])
 
     return (
         <>
@@ -113,27 +108,23 @@ const Home = props => {
                     <FlatList data={searchData} renderItem={({ item }) => (<SearchItems setLocation={setLocation} item={item} />)} keyExtractor={item => item.name} ItemSeparatorComponent={RenderSepartor} />
                 }
             </View>
-            <Pressable style={MainUI.container}
-                onPress={() => { Keyboard.dismiss(); setShowSearchDropdown(false); }}
-            >
-                <>
-                    {(showSearchDropdown || ObjectEmpty(customCity) && props.location.data.city === undefined) &&
-                        <View style={MainUI.container2}>
-                            <DoubleBounce size={30} color={"#fffff"} />
-                            {((props.location.data.city === undefined && props.location.fetched) && !showSearchDropdown) &&
-                                <CityNotFound city={props.location.data.originalCityName} />
-                            }
-                        </View>
-                    }
-                    {(props.location.data.city !== undefined && !showSearchDropdown) &&
-                        <Statistics
-                            city={ObjectEmpty(customCity) ? props.location.data.city : customCity.city}
-                            cured={ObjectEmpty(customCity) ? props.location.data.cured : customCity.cured}
-                            fatal={ObjectEmpty(customCity) ? props.location.data.fatal : customCity.fatal}
-                            infected={ObjectEmpty(customCity) ? props.location.data.infected : customCity.infected}
-                        />
-                    }
-                </>
+            <Pressable onPress={() => { Keyboard.dismiss(); setShowSearchDropdown(false); }} style={MainUI.container}>
+                {(showSearchDropdown || ObjectEmpty(customCity) && props.location.data.city === undefined) &&
+                    <View style={MainUI.container2}>
+                        <DoubleBounce size={30} color={"#fffff"} />
+                        {((props.location.data.city === undefined && props.location.fetched) && !showSearchDropdown) &&
+                            <CityNotFound city={props.location.data.originalCityName} />
+                        }
+                    </View>
+                }
+                {(props.location.data.city !== undefined && !showSearchDropdown) &&
+                    <Statistics
+                        city={ObjectEmpty(customCity) ? props.location.data.city : customCity.city}
+                        cured={ObjectEmpty(customCity) ? props.location.data.cured : customCity.cured}
+                        fatal={ObjectEmpty(customCity) ? props.location.data.fatal : customCity.fatal}
+                        infected={ObjectEmpty(customCity) ? props.location.data.infected : customCity.infected}
+                    />
+                }
             </Pressable>
         </>
     );

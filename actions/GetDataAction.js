@@ -19,7 +19,7 @@ export const getDataByLocation = location => {
 
 export const getSearchItems = () => {
     return dispatch => {
-        dispatch({ type: 'FETCHING_CITIES' });
+        dispatch({ type: 'FETCHING_SEARCH_ITEMS' });
         return fetch("https://raw.githubusercontent.com/COVID-19-Bulgaria/covid-database/master/Bulgaria/GeoDataset.json").then(
             res => res.json()
         ).then(res => {
@@ -28,7 +28,7 @@ export const getSearchItems = () => {
                 items.push({ name: val });
             });
 
-            dispatch({ type: "FETCHING_CITIES_SUCCESS", payload: items });
+            dispatch({ type: "FETCHING_SEARCH_ITEMS_SUCCESS", payload: items });
         });
     }
 }

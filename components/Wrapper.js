@@ -5,11 +5,9 @@ import * as Navigator from "../helpers/Navigator";
 import { DrawerActions } from "@react-navigation/native";
 
 const Wrapper = (props) => {
-
     const drawer = () => {
         Navigator.navigationRef.current.dispatch(DrawerActions.toggleDrawer())
     }
-
 
     return (
         <>
