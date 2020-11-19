@@ -1,14 +1,13 @@
 import 'react-native-gesture-handler';
 import React, { useEffect, useMemo, useState } from 'react';
+import { AppLoading } from "expo";
 import { createStore, applyMiddleware } from "redux";
-import { registerRootComponent } from "expo";
 import thunk from "redux-thunk";
 import { Provider } from "react-redux";
 import Wrapper from './components/Wrapper';
 import Reducers from "./reducers/Combine";
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { NavigationContainer } from '@react-navigation/native';
-import { PermissionsAndroid, Platform, Text } from "react-native";
 import { navigationRef } from "./helpers/Navigator";
 
 /**
@@ -25,7 +24,7 @@ const store = createStore(Reducers, applyMiddleware(thunk));
  * [x] 3. Save searched cities.
  * [x] 4. Check if the city is undefined and suggest nearest city.
  * 5. Animated background
- * 6. Fancy and animated font
+ * [x]6. Fancy and animated font
  * 9. Add errors binding on every reducer
  */
 
@@ -35,9 +34,13 @@ const Drawer = createDrawerNavigator();
  * Expo libraries 
  */
 import * as Perm from "expo-permissions";
+import { useFonts, Inter_200ExtraLight } from '@expo-google-fonts/inter';
 
 const App = () => {
     const [locationStatus, setLocationStatus] = useState(false);
+    const [fontsLoaded] = useFonts({
+        Inter_200ExtraLight
+    });
 
     /**
      * Ask for the user location.
@@ -53,6 +56,13 @@ const App = () => {
     useEffect(() => {
         askForLocationPermission();
     }, []);
+
+    /**
+     * Check if the fonts are loaded from google
+     */
+    if (!fontsLoaded) {
+        return (<AppLoading />);
+    }
 
     return (
         <Provider store={store}>
@@ -77,7 +87,3 @@ const App = () => {
 
 
 export default App;
-
-if (Platform.OS === "android") {
-    registerRootComponent(App);
-} else AppRegistry.registerComponent('CovidBG', () => App);

@@ -19,8 +19,7 @@ import Statistics from "../components/Statistics";
 import { SearchBar } from "react-native-elements";
 import { DoubleBounce } from "react-native-loader";
 import { MainUI } from "../styling/UI";
-import Modal, { ModalContent } from 'react-native-modals';
-import { SlideAnimation } from "react-native-popup-dialog";
+
 
 /**
  * Expo libraries
@@ -109,15 +108,18 @@ const Home = props => {
                 }
             </View>
             <Pressable onPress={() => { Keyboard.dismiss(); setShowSearchDropdown(false); }} style={MainUI.container}>
+
                 {(showSearchDropdown || ObjectEmpty(customCity) && props.location.data.city === undefined) &&
-                    <View style={MainUI.container2}>
-                        <DoubleBounce size={30} color={"#fffff"} />
-                        {((props.location.data.city === undefined && props.location.fetched) && !showSearchDropdown) &&
-                            <CityNotFound city={props.location.data.originalCityName} />
-                        }
-                    </View>
+                    <>
+                        <View style={MainUI.container2}>
+                            <DoubleBounce size={30} color={"#fffff"} />
+                            {((props.location.data.city === undefined && props.location.fetched) && !showSearchDropdown) &&
+                                <CityNotFound city={props.location.data.originalCityName} />
+                            }
+                        </View>
+                    </>
                 }
-                {(props.location.data.city !== undefined && !showSearchDropdown) &&
+                {(props.location.data.city !== undefined && !showSearchDropdown || !ObjectEmpty(customCity)) &&
                     <Statistics
                         city={ObjectEmpty(customCity) ? props.location.data.city : customCity.city}
                         cured={ObjectEmpty(customCity) ? props.location.data.cured : customCity.cured}

@@ -2,14 +2,13 @@ import React from "react";
 import { Text, View } from "react-native";
 import PropTypes from "prop-types";
 
-
 const Statistics = ({ infected, cured, fatal, city }) => {
     return (
-        <>
-            <Text style={{ fontSize: 50, color: 'white' }}>
+        <View>
+            <Text style={{ fontSize: 50, color: 'white', fontFamily: 'Inter_200ExtraLight' }}>
                 {city}
             </Text>
-            <Text style={{ fontSize: 20, textAlign: 'center' }}>
+            <Text style={{ fontSize: 20, textAlign: 'center', fontFamily: 'Inter_200ExtraLight' }}>
                 <Text style={{ color: 'orange' }}>
                     Заразени:
                                     <Text style={{ fontWeight: 'bold' }}>
@@ -18,7 +17,7 @@ const Statistics = ({ infected, cured, fatal, city }) => {
                 </Text>
             </Text>
 
-            <Text style={{ fontSize: 20, textAlign: 'center' }}>
+            <Text style={{ fontSize: 20, textAlign: 'center', fontFamily: 'Inter_200ExtraLight' }}>
                 <Text style={{ color: 'green' }}>
                     Излекувани:
                                     <Text style={{ fontWeight: 'bold' }}>
@@ -27,7 +26,7 @@ const Statistics = ({ infected, cured, fatal, city }) => {
                 </Text>
             </Text>
 
-            <Text style={{ fontSize: 20, textAlign: 'center' }}>
+            <Text style={{ fontSize: 20, textAlign: 'center', fontFamily: 'Inter_200ExtraLight' }}>
 
                 <Text style={{ color: 'red' }}>
                     Починали:
@@ -36,7 +35,7 @@ const Statistics = ({ infected, cured, fatal, city }) => {
                     </Text>
                 </Text>
             </Text>
-        </>
+        </View>
     );
 }
 

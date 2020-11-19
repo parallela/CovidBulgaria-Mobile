@@ -6,21 +6,26 @@ export const MainUI = StyleSheet.create({
         flex: 1,
         resizeMode: 'cover',
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
+        fontFamily: 'Inter_200ExtraLight',
+        zIndex: 1
     },
     container_full: {
         flex: 1,
         resizeMode: 'cover',
-        textDecorationColor: 'white' 
+        textDecorationColor: 'white',
+        zIndex: 1
     },
     container2: {
         flex: 1,
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
+        zIndex: 1,
     },
     textMiddle: {
         fontSize: 16,
-        color: '#ffffff'
+        color: '#ffffff',
+        fontFamily: 'Inter_200ExtraLight'
     },
     searchContainer: {
         backgroundColor: '#073642',
