@@ -49,5 +49,5 @@ const CitiesDataTable = ({ cities }) => {
 export default CitiesDataTable;
 
 CitiesDataTable.propTypes = {
-    cities: PropTypes.object.isRequired
+    cities: PropTypes.object.isRequired,
 }
